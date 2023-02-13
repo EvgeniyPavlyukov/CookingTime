@@ -15,9 +15,9 @@ protocol Assembler {
 
 class ModelAssembler: Assembler {
     static func createMain() -> UIViewController {
-        let model = Person(firstName: "Name", lastName: "LastName")
+        let networkService = NetworkService()
         let view = MainViewController()
-        let presenter = MainPresenter(view: view, person: model)
+        let presenter = MainPresenter(view: view, networkService: networkService)
         view.presenter = presenter
         
         return view

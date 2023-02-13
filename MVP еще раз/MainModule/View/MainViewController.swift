@@ -46,7 +46,8 @@ class MainViewController: UIViewController { //Это типа вью
     }
 
     @objc func didTapButtonAction() {
-        self.presenter.showGreeting()
+        
+//        self.presenter.showGreeting()
     }
     
     func addConstraints() {
@@ -62,10 +63,19 @@ class MainViewController: UIViewController { //Это типа вью
 
 }
 
-extension MainViewController: MainViewProtocol {  //а вот тут мы уже обновляем данные
-    func setGreeting(greeting: String) {
-//        self.greetingLabel.text = greeting
+extension MainViewController: MainViewProtocol {
+    func success() {
+        tableView.reloadData()
     }
+    
+    func failure(error: Error) {
+        print(error.localizedDescription)
+    }
+    
+//    //а вот тут мы уже обновляем данные
+//    func setGreeting(greeting: String) {
+////        self.greetingLabel.text = greeting
+//    }
 }
 
 extension MainViewController: UITableViewDelegate {
@@ -76,7 +86,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return presenter.recipies?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -85,8 +95,14 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let itemCell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier, for: indexPath) as? CustomCell {
-             
-            itemCell.myLabel.text = "\(indexPath.row)"
+            
+            let recepy = presenter.recipies?[indexPath.row]
+            itemCell.myLabel.text = recepy?.title
+            
+            let imageURL = recepy?.image
+            print(imageURL)
+            itemCell.myImageView.contentMode = .scaleAspectFill
+            itemCell.myImageView.downloaded(from: imageURL ?? "")
             
             return itemCell
         }
@@ -98,3 +114,29 @@ extension MainViewController: UITableViewDataSource {
     }
     
 }
+
+
+extension UIImageView {
+    func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async() { [weak self] in
+                self?.image = image
+            }
+        }.resume()
+    }
+    func downloaded(from link: String, contentMode mode: ContentMode = .scaleAspectFit) {
+        guard let url = URL(string: link) else { return }
+        downloaded(from: url, contentMode: mode)
+    }
+}
+
+
+
+

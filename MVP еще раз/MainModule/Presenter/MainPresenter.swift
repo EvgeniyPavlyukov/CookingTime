@@ -6,31 +6,52 @@
 //
 
 import Foundation
+import UIKit
 
 protocol MainViewProtocol: AnyObject { //для вьюхи 1
     func success() //будет отправлять сообщение нашей вьюхе
+    func failure(error: Error)
 }
 
 protocol MainViewPresenterProtocol: AnyObject { //будет принимать сообщение от вьюхи?
-    init(view: MainViewProtocol, person: Person) //захватываем ссылку на вью чтобы что? 2
-    func showGreeting()
+    init(view: MainViewProtocol, networkService: NetworkServiceProtocol) //захватываем ссылку на вью чтобы что? 2
+    func getRecepies() //запрашивает рецепт из сети
+    var recipies: [Recipe]? {get set}
+    var imagesURL: [String?]? {get set}
 }
 
 
 class MainPresenter: MainViewPresenterProtocol {
+    var imagesURL: [String?]?
     
-    let view: MainViewProtocol // презентер управляет вьюхой
-    let person: Person // презентер управялет моделью
+    weak var view: MainViewProtocol? // презентер управляет вьюхой
+    let networkService: NetworkServiceProtocol! // презентер управялет моделью
+    var recipies: [Recipe]?
     
-    required init(view: MainViewProtocol, person: Person) { //презентер нихрена не понимает откуда это приходит извне
+    required init(view: MainViewProtocol, networkService: NetworkServiceProtocol) { //презентер нихрена не понимает откуда это приходит извне
         self.view = view
-        self.person = person
+        self.networkService = networkService
+        getRecepies() //вызовется при сборке
     }
     
-    func showGreeting() {
-        let greeting = self.person.firstName + " " + self.person.lastName //это бизнес логика
-        self.view.setGreeting(greeting: greeting) //он передает то что в бизнесе собрал во вью которое подписано на этот протоко MainViewProtocol
+    func getRecepies() {
+        networkService.getModelFromInternet { [weak self] result in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async { //чтобы пришло после того как загрузится вью
+                switch result {
+                case . success(let recipies):
+                    self.recipies = recipies?.recipes
+                    self.view?.success()
+                case .failure(let error):
+                    self.view?.failure(error: error)
+                }
+            }
+            
+        }
     }
+    
+    
     
     
 }

@@ -44,8 +44,8 @@ class CustomCell: UITableViewCell {
         
         var constraints = [NSLayoutConstraint]()
         
-        constraints.append(myImageView.leadingAnchor.constraint(equalTo: myLabel.trailingAnchor))
-        constraints.append(myImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
+        constraints.append(myImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor))
+        constraints.append(myImageView.trailingAnchor.constraint(equalTo: myLabel.leadingAnchor))
         constraints.append(myImageView.topAnchor.constraint(equalTo: contentView.topAnchor))
         constraints.append(myImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor))
         

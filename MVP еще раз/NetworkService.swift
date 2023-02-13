@@ -6,16 +6,19 @@
 //
 
 import Foundation
+import UIKit
 
-protocol networkServiceProtocol {
-    func getModelFromInternet(completion: @escaping (Result<[CellModel]?, Error>) -> Void)
+protocol NetworkServiceProtocol: AnyObject {
+    func getModelFromInternet(completion: @escaping (Result<RecepyModelArray?, Error>) -> Void)
+    func getPhoto(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void)
 }
 
 
-class NetworkService: networkServiceProtocol {
+class NetworkService: NetworkServiceProtocol {
     
-    func getModelFromInternet(completion: @escaping (Result<[CellModel]?, Error>) -> Void) {
-        let urlString = "https://jsonplaceholder.typicode.com/photos"
+    func getModelFromInternet(completion: @escaping (Result<RecepyModelArray?, Error>) -> Void) {
+        let number = "number=10&"
+        let urlString = "https://api.spoonacular.com/recipes/random?\(number)apiKey=286e94bc02d443d5a5d4a1f7bc25cf6d"
         guard let url = URL(string: urlString) else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
@@ -25,12 +28,16 @@ class NetworkService: networkServiceProtocol {
             }
             
             do {
-                let obj = try JSONDecoder().decode([CellModel].self, from: data!)
+                let obj = try JSONDecoder().decode(RecepyModelArray?.self, from: data!)
                 completion(.success(obj))
             } catch {
                 completion(.failure(error))
             }
         }.resume()
+    }
+    
+    func getPhoto(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+            URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
 }
