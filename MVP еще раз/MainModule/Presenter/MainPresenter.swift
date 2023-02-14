@@ -59,7 +59,9 @@ class MainPresenter: MainViewPresenterProtocol {
         }
     }
     
+    //MARK: - Метод для подгрузки картинок, который запускается из TableView extension
     
+
     
     
 }

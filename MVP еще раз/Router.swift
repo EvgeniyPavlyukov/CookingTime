@@ -8,13 +8,13 @@
 import UIKit
 
 protocol RouterMainProtocol { //задает всем классам свои требования
-    var navigationController: UINavigationController? {get set}
+    var navigationController: UINavigationController? { get set}
+    var tabBarController: UITabBarController? { get set }
     var moduleAssembler: AssemblerProtocol? {get set}
 }
 
 
 protocol RouterProtocol: RouterMainProtocol { //роутер с конкретными контроллерами
-
     func initialViewController()
     func detailedViewController(recipy: Recipe?)
     func popToRoot()
@@ -22,19 +22,31 @@ protocol RouterProtocol: RouterMainProtocol { //роутер с конкретн
 }
 
 class Router: RouterProtocol {
+    
     var navigationController: UINavigationController?
+    var tabBarController: UITabBarController?
     var moduleAssembler: AssemblerProtocol?
     
-    init(navigationController: UINavigationController, moduleAssembler: AssemblerProtocol) {
+    init(navigationController: UINavigationController, moduleAssembler: AssemblerProtocol) { //инициализатор для пуша на другие экраны
         self.navigationController = navigationController
         self.moduleAssembler = moduleAssembler
     }
     
+    init(tabBarController: UITabBarController, moduleAssembler: AssemblerProtocol) { //инициализатор для начального экрана
+        self.tabBarController = tabBarController
+        self.moduleAssembler = moduleAssembler
+    }
+    
+    
     func initialViewController() {
-        if let navigationController = navigationController {
+        if let tabBarController = tabBarController {
             guard let mainViewController = moduleAssembler?.createMain(router: self) else { return }
-            navigationController.viewControllers = [mainViewController] //делаем рутовым
+            guard let favoritesViewController = moduleAssembler?.createFavorits(router: self) else { return }
+            let navControllerMain = UINavigationController(rootViewController: mainViewController)
+            let navControllerFav = UINavigationController(rootViewController: favoritesViewController)
+            tabBarController.viewControllers = [navControllerMain, navControllerFav]
         }
+        
     }
     
     func detailedViewController(recipy: Recipe?) {
