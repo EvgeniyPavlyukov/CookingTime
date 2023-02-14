@@ -14,25 +14,34 @@ protocol MainViewProtocol: AnyObject { //для вьюхи 1
 }
 
 protocol MainViewPresenterProtocol: AnyObject { //будет принимать сообщение от вьюхи?
-    init(view: MainViewProtocol, networkService: NetworkServiceProtocol) //захватываем ссылку на вью чтобы что? 2
+    init(view: MainViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) //захватываем ссылку на вью чтобы что? 2
     func getRecepies() //запрашивает рецепт из сети
     var recipies: [Recipe]? {get set}
-    var imagesURL: [String?]? {get set}
+    func tapOnTheRecipe(_ recipy: Recipe?)
 }
 
 
 class MainPresenter: MainViewPresenterProtocol {
-    var imagesURL: [String?]?
     
     weak var view: MainViewProtocol? // презентер управляет вьюхой
+    var router: RouterProtocol?
     let networkService: NetworkServiceProtocol! // презентер управялет моделью
     var recipies: [Recipe]?
     
-    required init(view: MainViewProtocol, networkService: NetworkServiceProtocol) { //презентер нихрена не понимает откуда это приходит извне
+    required init(view: MainViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) { //презентер нихрена не понимает откуда это приходит извне
         self.view = view
         self.networkService = networkService
+        self.router = router
         getRecepies() //вызовется при сборке
     }
+    
+    //MARK: - Переход к детальному экрану рецепта
+    
+    func tapOnTheRecipe(_ recipy: Recipe?) {
+        router?.detailedViewController(recipy: recipy)
+    }
+    
+    //MARK: - Получаем рецепты из интернета при загрузке приложения при сборке черезе Ассемблер кладем Коллекцию в переменную и уведомляем главный экран что все пришло, обновляем на главном потоке.
     
     func getRecepies() {
         networkService.getModelFromInternet { [weak self] result in
@@ -40,14 +49,13 @@ class MainPresenter: MainViewPresenterProtocol {
             
             DispatchQueue.main.async { //чтобы пришло после того как загрузится вью
                 switch result {
-                case . success(let recipies):
+                case .success(let recipies):
                     self.recipies = recipies?.recipes
                     self.view?.success()
                 case .failure(let error):
                     self.view?.failure(error: error)
                 }
             }
-            
         }
     }
     

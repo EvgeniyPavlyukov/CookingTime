@@ -14,14 +14,13 @@ class CustomCell: UITableViewCell {
     
     var myImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     var myLabel: UILabel = {
         let myLabel = UILabel()
-        myLabel.backgroundColor = .lightGray
         myLabel.textAlignment = .left
         return myLabel
     }()

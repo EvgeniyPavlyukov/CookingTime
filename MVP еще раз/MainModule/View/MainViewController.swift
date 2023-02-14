@@ -9,20 +9,6 @@ import UIKit
 
 class MainViewController: UIViewController { //Это типа вью
     
-//    var greetingLabel: UILabel = {
-//        let greetingLabel = UILabel(frame: CGRect(x: 150, y: 150, width: 100, height: 70))
-//        greetingLabel.backgroundColor = .gray
-//        greetingLabel.text = "Hi"
-//        return greetingLabel
-//    }()
-//
-//    var greetingButton: UIButton = {
-//        let greetingButton = UIButton(frame: CGRect(x: 150, y: 300, width: 70, height: 30))
-//        greetingButton.backgroundColor = .red
-//        greetingButton.addTarget(self, action: #selector(didTapButtonAction), for: .touchUpInside)
-//        return greetingButton
-//    }()
-    
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -39,15 +25,13 @@ class MainViewController: UIViewController { //Это типа вью
         
 //        view.addSubview(greetingLabel)
 //        view.addSubview(greetingButton)
-        tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
         addConstraints()
     }
 
     @objc func didTapButtonAction() {
-        
-//        self.presenter.showGreeting()
+    
     }
     
     func addConstraints() {
@@ -72,16 +56,7 @@ extension MainViewController: MainViewProtocol {
         print(error.localizedDescription)
     }
     
-//    //а вот тут мы уже обновляем данные
-//    func setGreeting(greeting: String) {
-////        self.greetingLabel.text = greeting
-//    }
 }
-
-extension MainViewController: UITableViewDelegate {
-    
-}
-
 
 extension MainViewController: UITableViewDataSource {
     
@@ -100,8 +75,6 @@ extension MainViewController: UITableViewDataSource {
             itemCell.myLabel.text = recepy?.title
             
             let imageURL = recepy?.image
-            print(imageURL)
-            itemCell.myImageView.contentMode = .scaleAspectFill
             itemCell.myImageView.downloaded(from: imageURL ?? "")
             
             return itemCell
@@ -110,11 +83,13 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let recipy = presenter.recipies?[indexPath.row]
+        presenter.tapOnTheRecipe(recipy)
     }
     
 }
 
+//MARK: - Вот это надо вынести в презентер
 
 extension UIImageView {
     func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFit) {
