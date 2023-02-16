@@ -24,6 +24,7 @@
 		3BC231DE299BACC100A7B75C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC231DD299BACC100A7B75C /* MainViewController.swift */; };
 		3BC231E0299BAD0000A7B75C /* MainCollectionCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC231DF299BAD0000A7B75C /* MainCollectionCustomCell.swift */; };
 		3BC231E6299BDAF200A7B75C /* FavoritesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC231E5299BDAF200A7B75C /* FavoritesPresenter.swift */; };
+		3BC231E8299D32AC00A7B75C /* LayoutConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC231E7299D32AC00A7B75C /* LayoutConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		3BC231DD299BACC100A7B75C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		3BC231DF299BAD0000A7B75C /* MainCollectionCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionCustomCell.swift; sourceTree = "<group>"; };
 		3BC231E5299BDAF200A7B75C /* FavoritesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPresenter.swift; sourceTree = "<group>"; };
+		3BC231E7299D32AC00A7B75C /* LayoutConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				3BC231DD299BACC100A7B75C /* MainViewController.swift */,
+				3BC231E7299D32AC00A7B75C /* LayoutConstants.swift */,
 				3BC231CF299954E800A7B75C /* CustomCell */,
 			);
 			path = View;
@@ -276,6 +279,7 @@
 				3BC231E6299BDAF200A7B75C /* FavoritesPresenter.swift in Sources */,
 				3BC231D32999638600A7B75C /* NetworkService.swift in Sources */,
 				3BC231CE29991A7E00A7B75C /* ModuleAssembler.swift in Sources */,
+				3BC231E8299D32AC00A7B75C /* LayoutConstants.swift in Sources */,
 				3BC231B02999106A00A7B75C /* AppDelegate.swift in Sources */,
 				3BC231C42999108200A7B75C /* CellModel.swift in Sources */,
 				3BC231D1299954FD00A7B75C /* FavoritesTableCustomCell.swift in Sources */,

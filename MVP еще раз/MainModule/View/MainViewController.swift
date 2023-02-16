@@ -23,9 +23,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
-        self.title = "mhgkhg"
-        navigationController?.title = ",kjhfjfj"
+        view.backgroundColor = .white
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
@@ -36,8 +34,9 @@ class MainViewController: UIViewController {
     func tabBarNavBarSetUp() {
         let imageName = "list.bullet.rectangle.portrait.fill"
         let title = "All recipies"
-//        tabBarController?.tabBarItem.title = title
-//        tabBarController?.tabBarItem.image = UIImage(systemName: imageName)
+        navigationController?.title = title
+        tabBarController?.tabBarItem.title = title
+        tabBarController?.tabBarItem.image = UIImage(systemName: imageName)
         tabBarController?.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: 0)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
     }
@@ -87,7 +86,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
             itemCell.myImageView.downloaded(from: imageURL ?? "")
             
             itemCell.myImageView.clipsToBounds = true
-            itemCell.myImageView.layer.cornerRadius = 50
+            itemCell.myImageView.layer.cornerRadius = 30
             
             
             return itemCell
@@ -96,7 +95,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.width / 3, height: view.bounds.height / 2)
+        return CGSize(width: ConstantsCollectionView.itemWidth, height: ConstantsCollectionView.itemHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -105,8 +104,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
     }
                 
 
-
-    
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return presenter.recipies?.count ?? 1
 //    }
@@ -140,29 +137,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
 
 //    }
     
-}
-
-//MARK: - Вот это надо вынести в презентер
-
-extension UIImageView {
-    func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFill) {
-        contentMode = mode
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async() { [weak self] in
-                self?.image = image
-            }
-        }.resume()
-    }
-    func downloaded(from link: String, contentMode mode: ContentMode = .scaleAspectFill) {
-        guard let url = URL(string: link) else { return }
-        downloaded(from: url, contentMode: mode)
-    }
 }
 
 

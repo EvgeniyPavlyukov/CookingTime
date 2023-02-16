@@ -9,12 +9,14 @@ import Foundation
 
 protocol FavoritesViewProtocol: AnyObject {
     func success()
-    func failure(error: Error)
+    func failure(error: String)
 }
 
 protocol FavoritesViewPresenterProtocol: AnyObject {
     init(view: FavoritesViewProtocol, netvorkService: NetworkServiceProtocol, router: RouterProtocol)
-    func getRecepies()
+    func saveToUserDefaults()
+    func fetchUserDefaultsData()
+    var recipies: [Recipe]? { get set }
 }
 
 class FavoritesPresenter: FavoritesViewPresenterProtocol {
@@ -31,6 +33,27 @@ class FavoritesPresenter: FavoritesViewPresenterProtocol {
     }
     
     //MARK: - Получаем рецепты из UserDefaults при загрузке экрана при сборке черезе Ассемблер кладем Коллекцию в переменную и уведомляем главный экран что все пришло, обновляем на главном потоке.
+    
+    
+    func saveToUserDefaults() {
+        let encodedData = try! PropertyListEncoder().encode(recipies)
+        UserDefaults.standard.set(encodedData, forKey: "recipies")
+    }
+    
+    
+    func fetchUserDefaultsData() {
+        if let fetchedData =  UserDefaults.standard.data(forKey: "recipies") {
+            let fetchedDataArray = try! PropertyListDecoder().decode([Recipe].self, from: fetchedData) //так как нельзя работать с тюплами в userDefaults кодируем тайтл и текст в дату, сохраняем ее в юзерДелфол, потом при запуске декодим
+            
+            DispatchQueue.main.async { //чтобы пришло после того как загрузится вью
+                self.recipies = fetchedDataArray
+                self.view?.success()
+            }
+        } else {
+            view?.failure(error: "Данные из Юзер Дефолтс не спарсились")
+        }
+    }
+    
     
     func getRecepies() {
         

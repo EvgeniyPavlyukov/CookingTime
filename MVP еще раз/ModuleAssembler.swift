@@ -28,7 +28,7 @@ class ModuleAssembler: AssemblerProtocol {
     func createFavorits(router: RouterProtocol) -> UIViewController {
         let networkService = NetworkService()
         let view = FavoritesViewController()
-        let presenter = MainPresenter(view: view, networkService: networkService, router: router)
+        let presenter = FavoritesPresenter(view: view, netvorkService: networkService, router: router)
         view.presenter = presenter
         
         return view

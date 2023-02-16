@@ -17,7 +17,7 @@ class FavoritesViewController: UIViewController { //Это типа вью
         return tableView
     }()
 
-    var presenter: MainViewPresenterProtocol! //будет собирать снаружи
+    var presenter: FavoritesViewPresenterProtocol! //будет собирать снаружи
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,13 +63,13 @@ class FavoritesViewController: UIViewController { //Это типа вью
 
 }
 
-extension FavoritesViewController: MainViewProtocol {
+extension FavoritesViewController: FavoritesViewProtocol {
+    func failure(error: String) {
+        print(error)
+    }
+    
     func success() {
         tableView.reloadData()
-    }
-
-    func failure(error: Error) {
-        print(error.localizedDescription)
     }
 
 }
@@ -78,7 +78,7 @@ extension FavoritesViewController: MainViewProtocol {
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.recipies?.count ?? 1
+        return presenter.recipies?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -89,14 +89,14 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         if let itemCell = tableView.dequeueReusableCell(withIdentifier: FavoritesTableCustomCell.identifier, for: indexPath) as? FavoritesTableCustomCell {
 
             let recepy = presenter.recipies?[indexPath.row]
-            itemCell.myLabel.text = recepy?.title
+//            itemCell.myLabel.text = recepy?.title
 
-            let imageURL = recepy?.image
+//            let imageURL = recepy?.image
 //            itemCell.myImageView.layer.cornerRadius = 20
 //            itemCell.myImageView.contentMode = .scaleAspectFill
 //            itemCell.contentView.contentMode = .scaleAspectFill
 
-            itemCell.myImageView.downloaded(from: imageURL ?? "")
+//            itemCell.myImageView.downloaded(from: imageURL ?? "")
             itemCell.myImageView.clipsToBounds = true
             itemCell.myImageView.layer.cornerRadius = 50
 
@@ -107,31 +107,12 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let recipy = presenter.recipies?[indexPath.row]
-        presenter.tapOnTheRecipe(recipy)
+//        let recipy = presenter.recipies?[indexPath.row]
+//        presenter.tapOnTheRecipe(recipy)
     }
 
 }
 
-//MARK: - Вот это надо вынести в презентер
-
-//extension UIImageView {
-//    func downloaded(from link: String, contentMode mode: ContentMode = .scaleAspectFill) {
-//        guard let url = URL(string: link) else { return }
-//        contentMode = mode
-//        URLSession.shared.dataTask(with: url) { data, response, error in
-//            guard
-//                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-//                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-//                let data = data, error == nil,
-//                let image = UIImage(data: data)
-//                else { return }
-//            DispatchQueue.main.async() { [weak self] in
-//                self?.image = image
-//            }
-//        }.resume()
-//    }
-//}
 
 
 
