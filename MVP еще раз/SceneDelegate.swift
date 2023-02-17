@@ -15,11 +15,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let tabBarController = UITabBarController()
+        let navController = UINavigationController()
         let assembler = ModuleAssembler()
-        let router = Router(tabBarController: tabBarController, moduleAssembler: assembler)
+        let router = Router(navigationController: navController, moduleAssembler: assembler)
         router.initialViewController()
-        window?.rootViewController = tabBarController
+        window?.rootViewController = navController
         window?.makeKeyAndVisible()
     }
 

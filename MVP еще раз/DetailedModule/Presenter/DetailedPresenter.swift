@@ -14,12 +14,13 @@ protocol DetailedViewProtocol: AnyObject {
 protocol DetailedViewPresenterProtocol: AnyObject {
     init(view: DetailedViewProtocol, netvorkService: NetworkServiceProtocol,router: RouterProtocol, recipy: Recipe?)
     func setRecepy()
-    
+    func saveToUserDefaults(_ key: String)
 }
 
 class DetailPresenter: DetailedViewPresenterProtocol {
 
     weak var view: DetailedViewProtocol? // презентер управляет вьюхой
+//    weak var favorite: FavoriteRecipyDelegate!
     let networkService: NetworkServiceProtocol! // презентер управялет моделью
     var router: RouterProtocol?
     var recipy: Recipe?
@@ -33,6 +34,11 @@ class DetailPresenter: DetailedViewPresenterProtocol {
     
     func setRecepy() {
         self.view?.setRecepy(recipy)
+    }
+    
+    func saveToUserDefaults(_ key: String) {
+        let encodedData = try! PropertyListEncoder().encode(recipy)
+        UserDefaults.standard.set(encodedData, forKey: key)
     }
     
     

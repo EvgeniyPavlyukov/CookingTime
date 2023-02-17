@@ -9,6 +9,10 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    deinit {
+        print("Main vc is destroied")
+    }
+    
     var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -34,11 +38,19 @@ class MainViewController: UIViewController {
     func tabBarNavBarSetUp() {
         let imageName = "list.bullet.rectangle.portrait.fill"
         let title = "All recipies"
-        navigationController?.title = title
-        tabBarController?.tabBarItem.title = title
-        tabBarController?.tabBarItem.image = UIImage(systemName: imageName)
-        tabBarController?.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: 0)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+        
+        self.title = title
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = title //это тайтл навигешена
+        self.navigationController?.tabBarItem.selectedImage = UIImage(systemName: imageName) //таб бар настраивается через навигейшн контроллер
+    
+//        self.tabBarItem.image = UIImage(systemName: imageName)
+//        self.navigationItem.title = title
+        
+//        tabBarController?.tabBarItem.title = title
+//        self.tabBarController?.tabBarItem.image = UIImage(systemName: imageName)
+//        tabBarController?.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), tag: 0)
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
     }
 
     @objc func didTapButtonAction() {
@@ -101,6 +113,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipy = presenter.recipies?[indexPath.row]
         presenter.tapOnTheRecipe(recipy)
+        print("tap")
     }
                 
 

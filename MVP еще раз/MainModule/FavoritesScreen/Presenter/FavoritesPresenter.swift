@@ -14,13 +14,13 @@ protocol FavoritesViewProtocol: AnyObject {
 
 protocol FavoritesViewPresenterProtocol: AnyObject {
     init(view: FavoritesViewProtocol, netvorkService: NetworkServiceProtocol, router: RouterProtocol)
-    func saveToUserDefaults()
+//    func saveToUserDefaults()
     func fetchUserDefaultsData()
     var recipies: [Recipe]? { get set }
 }
 
-class FavoritesPresenter: FavoritesViewPresenterProtocol {
-
+class FavoritesPresenter: FavoritesViewPresenterProtocol{
+  
     weak var view: FavoritesViewProtocol? // презентер управляет вьюхой
     let networkService: NetworkServiceProtocol! // презентер управялет моделью
     var router: RouterProtocol?
@@ -35,10 +35,15 @@ class FavoritesPresenter: FavoritesViewPresenterProtocol {
     //MARK: - Получаем рецепты из UserDefaults при загрузке экрана при сборке черезе Ассемблер кладем Коллекцию в переменную и уведомляем главный экран что все пришло, обновляем на главном потоке.
     
     
-    func saveToUserDefaults() {
-        let encodedData = try! PropertyListEncoder().encode(recipies)
-        UserDefaults.standard.set(encodedData, forKey: "recipies")
-    }
+//    func saveToUserDefaults(_ recipy: Recipe) {
+//        if let fetchedData =  UserDefaults.standard.data(forKey: "recipies") {
+//            var fetchedDataArray = try! PropertyListDecoder().decode([Recipe].self, from: fetchedData)
+//            fetchedDataArray.append(recipy)
+//            let encodedData = try! PropertyListEncoder().encode(recipies)
+//            UserDefaults.standard.set(encodedData, forKey: "recipies")
+//        }
+//
+//    }
     
     
     func fetchUserDefaultsData() {

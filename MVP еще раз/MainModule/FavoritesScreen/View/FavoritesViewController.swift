@@ -7,7 +7,9 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController { //Это типа вью
+class FavoritesViewController: UIViewController {
+   
+    //Это типа вью
 
     var tableView: UITableView = {
         let tableView = UITableView()
@@ -39,11 +41,12 @@ class FavoritesViewController: UIViewController { //Это типа вью
     }
     
     func tabBarNavBarSetUp() {
-        let imageName = "list.bullet.rectangle.portrait.fill"
-        self.title = "Favorites"
-        tabBarController?.tabBarItem.title = title
-        tabBarController?.tabBarItem.image = UIImage(systemName: imageName)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+        let imageName = "star.fill"
+        let title = "Favorites"
+        self.title = title
+        self.navigationController?.tabBarItem.image = UIImage(systemName: "star")
+        self.navigationController?.tabBarItem.selectedImage = UIImage(systemName: imageName)
+        navigationItem.title = title
     }
 
     @objc func didTapButtonAction() {
@@ -60,8 +63,9 @@ class FavoritesViewController: UIViewController { //Это типа вью
 
         NSLayoutConstraint.activate(constraints)
     }
-
+    
 }
+
 
 extension FavoritesViewController: FavoritesViewProtocol {
     func failure(error: String) {
