@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 class DetailedViewController: UIViewController {
     
     deinit {
@@ -15,16 +17,24 @@ class DetailedViewController: UIViewController {
     
     var presenter: DetailedViewPresenterProtocol!
     
+    var recipy: Recipe?
+    
     var detailedImageView: UIImageView = {
         let detailedImageView = UIImageView()
-        
         
         return detailedImageView
     }()
     
+    let navBarTitle: UILabel = {
+        let navBarTitle = UILabel()
+        navBarTitle.minimumScaleFactor = 0.5
+        navBarTitle.adjustsFontSizeToFitWidth = true
+        
+        return navBarTitle
+    }()
+    
     var detailedNameLabel: UILabel = {
         let detailedNameLabel = UILabel()
-        
         detailedNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return detailedNameLabel
@@ -46,9 +56,32 @@ class DetailedViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(detailedNameLabel)
-        addConstraints()
         presenter.setRecepy()
+        setUpNavBar()
+        addConstraints()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        
+    }
+    
+    func setUpNavBar() {
+        navigationController?.isNavigationBarHidden = false
+        navigationItem.titleView = navBarTitle
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(passDataToFav))
+        
+    }
+    
+    @objc func passDataToFav() {
+        if let recipy = recipy {
+//            presenter.saveToUserDefaults(recipy.title ?? "1")
+            print("рецепт сохранен в избранное")
+            }
+        }
+
     
     func addConstraints() {
         var constraints = [NSLayoutConstraint]()
@@ -60,7 +93,6 @@ class DetailedViewController: UIViewController {
         
         NSLayoutConstraint.activate(constraints)
     }
-
     
 }
 
@@ -68,7 +100,9 @@ class DetailedViewController: UIViewController {
 extension DetailedViewController: DetailedViewProtocol {
     
     func setRecepy(_ recipy: Recipe?) {
-        detailedNameLabel.text = recipy?.title
+        self.navBarTitle.text = recipy?.title
+        
+        self.recipy = recipy
     }
 
 }

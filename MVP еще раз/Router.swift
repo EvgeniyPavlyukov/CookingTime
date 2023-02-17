@@ -9,7 +9,7 @@ import UIKit
 
 protocol RouterMainProtocol { //задает всем классам свои требования
     var navigationController: UINavigationController? { get set}
-    var tabBarController: UITabBarController? { get set }
+//    var tabBarController: UITabBarController? { get set }
     var moduleAssembler: AssemblerProtocol? {get set}
 }
 
@@ -24,7 +24,7 @@ protocol RouterProtocol: RouterMainProtocol { //роутер с конкретн
 class Router: RouterProtocol {
     
     var navigationController: UINavigationController?
-    var tabBarController: UITabBarController?
+//    var tabBarController: UITabBarController?
     var moduleAssembler: AssemblerProtocol?
     
     init(navigationController: UINavigationController, moduleAssembler: AssemblerProtocol) { //инициализатор для пуша на другие экраны
@@ -32,22 +32,15 @@ class Router: RouterProtocol {
         self.moduleAssembler = moduleAssembler
     }
     
-    init(tabBarController: UITabBarController, moduleAssembler: AssemblerProtocol) { //инициализатор для начального экрана
-        self.tabBarController = tabBarController
-        self.moduleAssembler = moduleAssembler
-    }
-    
-    
     func initialViewController() {
-        if let tabBarController = tabBarController {
+        if let navigationController = navigationController { //этот пирог нужен чтобы обеспечить переходы по экранам
             guard let mainViewController = moduleAssembler?.createMain(router: self) else { return }
             guard let favoritesViewController = moduleAssembler?.createFavorits(router: self) else { return }
-            let navControllerMain = UINavigationController(rootViewController: mainViewController)
-            let navControllerFav = UINavigationController(rootViewController: favoritesViewController)
-            tabBarController.viewControllers = [navControllerMain, navControllerFav]
+            guard let tabBarController = moduleAssembler?.createTabBarAndNavBar(navContrRoot: navigationController, navBarArray: [mainViewController, favoritesViewController]) else { return }
+            navigationController.viewControllers = [tabBarController]
+            navigationController.setNavigationBarHidden(true, animated: true)
+            }
         }
-        
-    }
     
     func detailedViewController(recipy: Recipe?) {
         if let navigationController = navigationController {
@@ -59,6 +52,7 @@ class Router: RouterProtocol {
     func popToRoot() {
         if let navigationController = navigationController {
             navigationController.popToRootViewController(animated: true)
+//            navigationController.isNavigationBarHidden = true
         }
     }
     

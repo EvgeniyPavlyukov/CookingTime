@@ -12,10 +12,12 @@ protocol AssemblerProtocol {
     func createMain(router: RouterProtocol) -> UIViewController
     func createFavorits(router: RouterProtocol) -> UIViewController 
     func createDetailedModule(recipy: Recipe?, router: RouterProtocol) -> UIViewController
+    func createTabBarAndNavBar(navContrRoot: UIViewController, navBarArray: [UIViewController]) -> UITabBarController
 }
 
 
 class ModuleAssembler: AssemblerProtocol {
+    
     func createMain(router: RouterProtocol) -> UIViewController {
         let networkService = NetworkService()
         let view = MainViewController()
@@ -45,9 +47,10 @@ class ModuleAssembler: AssemblerProtocol {
     
     
     func createTabBarAndNavBar(navContrRoot: UIViewController, navBarArray: [UIViewController]) -> UITabBarController {
+        
         let tabBarVC = UITabBarController()
-        let allRecipies = createNavVC(vc: navBarArray[0], imageName: "list.bullet.rectangle.portrait.fill", itemName: "All recipies")
-        let favoriteRecipies = createNavVC(vc: navBarArray[1], imageName: "star.fill", itemName: "Favorite")
+        let allRecipies = createNavVC(vc: navBarArray[0], imageName: "list.bullet.rectangle.portrait", itemName: "All recipies")
+        let favoriteRecipies = createNavVC(vc: navBarArray[1], imageName: "star", itemName: "Favorite")
 
         tabBarVC.viewControllers = [allRecipies, favoriteRecipies]
 

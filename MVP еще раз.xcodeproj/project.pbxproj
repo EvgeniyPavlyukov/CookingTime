@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B6ABD74299FAD5D00653981 /* MainModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6ABD73299FAD5D00653981 /* MainModulePresenter.swift */; };
 		3BC231B02999106A00A7B75C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC231AF2999106A00A7B75C /* AppDelegate.swift */; };
 		3BC231B22999106A00A7B75C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC231B12999106A00A7B75C /* SceneDelegate.swift */; };
 		3BC231B42999106A00A7B75C /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC231B32999106A00A7B75C /* FavoritesViewController.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B6ABD73299FAD5D00653981 /* MainModulePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModulePresenter.swift; sourceTree = "<group>"; };
 		3BC231AC2999106A00A7B75C /* MVP еще раз.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MVP еще раз.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BC231AF2999106A00A7B75C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BC231B12999106A00A7B75C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B6ABD72299FACB100653981 /* MainModule */ = {
+			isa = PBXGroup;
+			children = (
+				3B6ABD73299FAD5D00653981 /* MainModulePresenter.swift */,
+				3BC231C8299919B000A7B75C /* Model */,
+				3BC231C72999198B00A7B75C /* AllRecipiesScreen */,
+				3BC231E2299BDA5600A7B75C /* FavoritesScreen */,
+			);
+			path = MainModule;
+			sourceTree = "<group>";
+		};
 		3BC231A32999106A00A7B75C = {
 			isa = PBXGroup;
 			children = (
@@ -85,9 +98,8 @@
 				3BC231D22999638600A7B75C /* NetworkService.swift */,
 				3BC231CD29991A7E00A7B75C /* ModuleAssembler.swift */,
 				3BC231D9299B91A500A7B75C /* Router.swift */,
-				3BC231C72999198B00A7B75C /* MainModule */,
+				3B6ABD72299FACB100653981 /* MainModule */,
 				3BC231D4299B829100A7B75C /* DetailedModule */,
-				3BC231E2299BDA5600A7B75C /* FavoritesModule */,
 				3BC231B52999106A00A7B75C /* Main.storyboard */,
 				3BC231B82999106D00A7B75C /* Assets.xcassets */,
 				3BC231BA2999106D00A7B75C /* LaunchScreen.storyboard */,
@@ -96,14 +108,14 @@
 			path = "MVP еще раз";
 			sourceTree = "<group>";
 		};
-		3BC231C72999198B00A7B75C /* MainModule */ = {
+		3BC231C72999198B00A7B75C /* AllRecipiesScreen */ = {
 			isa = PBXGroup;
 			children = (
-				3BC231C8299919B000A7B75C /* Model */,
+				3BC231E7299D32AC00A7B75C /* LayoutConstants.swift */,
 				3BC231CB299919FC00A7B75C /* View */,
 				3BC231CC29991A0500A7B75C /* Presenter */,
 			);
-			path = MainModule;
+			path = AllRecipiesScreen;
 			sourceTree = "<group>";
 		};
 		3BC231C8299919B000A7B75C /* Model */ = {
@@ -118,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				3BC231DD299BACC100A7B75C /* MainViewController.swift */,
-				3BC231E7299D32AC00A7B75C /* LayoutConstants.swift */,
 				3BC231CF299954E800A7B75C /* CustomCell */,
 			);
 			path = View;
@@ -173,13 +184,13 @@
 			path = CustomCell;
 			sourceTree = "<group>";
 		};
-		3BC231E2299BDA5600A7B75C /* FavoritesModule */ = {
+		3BC231E2299BDA5600A7B75C /* FavoritesScreen */ = {
 			isa = PBXGroup;
 			children = (
 				3BC231E3299BDAB800A7B75C /* View */,
 				3BC231E4299BDAD200A7B75C /* Presenter */,
 			);
-			path = FavoritesModule;
+			path = FavoritesScreen;
 			sourceTree = "<group>";
 		};
 		3BC231E3299BDAB800A7B75C /* View */ = {
@@ -277,6 +288,7 @@
 				3BC231D8299B85C000A7B75C /* DetailedViewController.swift in Sources */,
 				3BC231B42999106A00A7B75C /* FavoritesViewController.swift in Sources */,
 				3BC231E6299BDAF200A7B75C /* FavoritesPresenter.swift in Sources */,
+				3B6ABD74299FAD5D00653981 /* MainModulePresenter.swift in Sources */,
 				3BC231D32999638600A7B75C /* NetworkService.swift in Sources */,
 				3BC231CE29991A7E00A7B75C /* ModuleAssembler.swift in Sources */,
 				3BC231E8299D32AC00A7B75C /* LayoutConstants.swift in Sources */,
