@@ -14,6 +14,8 @@ class MainCollectionCustomCell: UICollectionViewCell {
     
     var myImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleToFill
         
         return imageView
     }()
@@ -21,7 +23,17 @@ class MainCollectionCustomCell: UICollectionViewCell {
     var myLabel: UILabel = {
         let myLabel = UILabel()
         myLabel.textAlignment = .left
+        myLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         return myLabel
+    }()
+    
+    var myButton: UIButton = {
+        let myButton = UIButton()
+        myButton.translatesAutoresizingMaskIntoConstraints = false
+        myButton.backgroundColor = .red
+        
+        return myButton
     }()
     
     override init(frame: CGRect) {
@@ -29,6 +41,7 @@ class MainCollectionCustomCell: UICollectionViewCell {
         
         contentView.addSubview(myImageView)
         contentView.addSubview(myLabel)
+        contentView.addSubview(myButton)
     }
     
     
@@ -36,10 +49,9 @@ class MainCollectionCustomCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        myImageView.translatesAutoresizingMaskIntoConstraints = false
-        myLabel.translatesAutoresizingMaskIntoConstraints = false
         
         var constraints = [NSLayoutConstraint]()
         
@@ -49,9 +61,14 @@ class MainCollectionCustomCell: UICollectionViewCell {
         constraints.append(myImageView.bottomAnchor.constraint(equalTo: myLabel.topAnchor, constant: -10))
         
         constraints.append(myLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor))
-        constraints.append(myLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
+        constraints.append(myLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40))
         constraints.append(myLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40))
         constraints.append(myLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor))
+        
+        constraints.append(myButton.leadingAnchor.constraint(equalTo: myLabel.trailingAnchor))
+        constraints.append(myButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
+        constraints.append(myButton.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40))
+        constraints.append(myButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor))
         
         NSLayoutConstraint.activate(constraints)
     }

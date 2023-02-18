@@ -24,7 +24,6 @@ protocol RouterProtocol: RouterMainProtocol { //роутер с конкретн
 class Router: RouterProtocol {
     
     var navigationController: UINavigationController?
-//    var tabBarController: UITabBarController?
     var moduleAssembler: AssemblerProtocol?
     
     init(navigationController: UINavigationController, moduleAssembler: AssemblerProtocol) { //инициализатор для пуша на другие экраны
@@ -35,8 +34,7 @@ class Router: RouterProtocol {
     func initialViewController() {
         if let navigationController = navigationController { //этот пирог нужен чтобы обеспечить переходы по экранам
             guard let mainViewController = moduleAssembler?.createMain(router: self) else { return }
-            guard let favoritesViewController = moduleAssembler?.createFavorits(router: self) else { return }
-            guard let tabBarController = moduleAssembler?.createTabBarAndNavBar(navContrRoot: navigationController, navBarArray: [mainViewController, favoritesViewController]) else { return }
+            guard let tabBarController = moduleAssembler?.createTabBarAndNavBar(navContrRoot: navigationController, navBarArray: mainViewController) else { return }
             navigationController.viewControllers = [tabBarController]
             navigationController.setNavigationBarHidden(true, animated: true)
             }

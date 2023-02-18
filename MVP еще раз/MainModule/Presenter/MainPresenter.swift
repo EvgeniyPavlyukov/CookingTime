@@ -14,25 +14,32 @@ protocol MainViewProtocol: AnyObject { //для вьюхи 1
 }
 
 protocol MainViewPresenterProtocol: AnyObject { //будет принимать сообщение от вьюхи?
-    init(view: MainViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) //захватываем ссылку на вью чтобы что? 2
+    init(view: MainViewProtocol, favoritesView: FavoritesViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) //захватываем ссылку на вью чтобы что? 2
     func getRecepies() //запрашивает рецепт из сети
-    var recipies: [Recipe]? {get set}
     func tapOnTheRecipe(_ recipy: Recipe?)
+    func saveToFavorites(_ recipyID: Int?)
+    var recipies: [Recipe]? {get set}
+    var recipiesFavorites: [Recipe]? {get set}
 }
 
 
 class MainPresenter: MainViewPresenterProtocol {
     
     weak var view: MainViewProtocol? // презентер управляет вьюхой
+    weak var favoritesView: FavoritesViewProtocol?
     var router: RouterProtocol?
     let networkService: NetworkServiceProtocol! // презентер управялет моделью
     var recipies: [Recipe]?
+    var recipiesFavorites: [Recipe]?
     
-    required init(view: MainViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) { //презентер нихрена не понимает откуда это приходит извне
+    
+    required init(view: MainViewProtocol, favoritesView: FavoritesViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) { //презентер нихрена не понимает откуда это приходит извне
         self.view = view
+        self.favoritesView = favoritesView
         self.networkService = networkService
         self.router = router
         getRecepies() //вызовется при сборке
+        recipiesFavorites = [Recipe]()
     }
     
     //MARK: - Переход к детальному экрану рецепта
@@ -59,29 +66,42 @@ class MainPresenter: MainViewPresenterProtocol {
         }
     }
     
+    //MARK: - Save to Favorites
+    
+    func saveToFavorites(_ recipyID: Int?) {
+        guard let recipyID = recipyID else { return }
+        guard let recipies = recipies else { return }
+        print(recipyID)
+        let recipy = recipies[recipyID]
+         //иначе будет нил так как массив был[Recipe]? не объявлен
+        recipiesFavorites?.append(recipy)
+        print(recipiesFavorites)
+        
+        favoritesView?.success()
+    }
 
 }
 
 //MARK: - Метод для подгрузки картинок, который запускается из TableView extension
 
-    extension UIImageView {
-        func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFill) {
-            contentMode = mode
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard
-                    let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                    let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                    let data = data, error == nil,
-                    let image = UIImage(data: data)
-                    else { return }
-                DispatchQueue.main.async() { [weak self] in
-                    self?.image = image
-                }
-            }.resume()
-        }
-        func downloaded(from link: String, contentMode mode: ContentMode = .scaleAspectFill) {
-            guard let url = URL(string: link) else { return }
-            downloaded(from: url, contentMode: mode)
-        }
+extension UIImageView {
+    func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFill) {
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+            else { return }
+            DispatchQueue.main.async() { [weak self] in
+                self?.image = image
+            }
+        }.resume()
     }
+    func downloaded(from link: String, contentMode mode: ContentMode = .scaleAspectFill) {
+        guard let url = URL(string: link) else { return }
+        downloaded(from: url, contentMode: mode)
+    }
+}
     

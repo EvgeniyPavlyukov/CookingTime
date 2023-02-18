@@ -9,8 +9,7 @@ import Foundation
 import UIKit
 
 protocol AssemblerProtocol {
-    func createMain(router: RouterProtocol) -> UIViewController
-    func createFavorits(router: RouterProtocol) -> UIViewController 
+    func createMain(router: RouterProtocol) -> [UIViewController]
     func createDetailedModule(recipy: Recipe?, router: RouterProtocol) -> UIViewController
     func createTabBarAndNavBar(navContrRoot: UIViewController, navBarArray: [UIViewController]) -> UITabBarController
 }
@@ -18,22 +17,15 @@ protocol AssemblerProtocol {
 
 class ModuleAssembler: AssemblerProtocol {
     
-    func createMain(router: RouterProtocol) -> UIViewController {
+    func createMain(router: RouterProtocol) -> [UIViewController] {
         let networkService = NetworkService()
         let view = MainViewController()
-        let presenter = MainPresenter(view: view, networkService: networkService, router: router)
+        let favoriteView = FavoritesViewController()
+        let presenter = MainPresenter(view: view, favoritesView: favoriteView, networkService: networkService, router: router) //вот так можно делать?
         view.presenter = presenter
+        favoriteView.presenterMain = presenter //так мы получаем связь с экраном Избранное из главное презентера и имеем возможность сохранять в избранное рецепты
         
-        return view
-    }
-    
-    func createFavorits(router: RouterProtocol) -> UIViewController {
-        let networkService = NetworkService()
-        let view = FavoritesViewController()
-        let presenter = FavoritesPresenter(view: view, netvorkService: networkService, router: router)
-        view.presenter = presenter
-        
-        return view
+        return [view, favoriteView]
     }
     
     func createDetailedModule(recipy: Recipe?, router: RouterProtocol) -> UIViewController {

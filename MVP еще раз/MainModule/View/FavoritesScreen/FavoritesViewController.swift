@@ -7,11 +7,12 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController {
-   
-    //Это типа вью
+class FavoritesViewController: UIViewController { //Это типа вью
+    
+//    var presenter: FavoritesViewPresenterProtocol! //будет собирать снаружи
+    var presenterMain: MainViewPresenterProtocol!
 
-    var tableView: UITableView = {
+    public var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(FavoritesTableCustomCell.self, forCellReuseIdentifier: FavoritesTableCustomCell.identifier)
@@ -19,25 +20,22 @@ class FavoritesViewController: UIViewController {
         return tableView
     }()
 
-    var presenter: FavoritesViewPresenterProtocol! //будет собирать снаружи
-
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarNavBarSetUp()
-        view.backgroundColor = .gray
-        tableView.delegate = self
-        tableView.dataSource = self
-        view.addSubview(tableView)
+        delegatesSetUp()
+        viewSetUp()
         addConstraints()
     }
     
-    func navigationSearch() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search,
-                                                            target: self,
-                                                            action: #selector(searchRecipies))
+    func viewSetUp() {
+        view.backgroundColor = .white
+        view.addSubview(tableView)
     }
     
-    @objc func searchRecipies() {
+    func delegatesSetUp() {
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     func tabBarNavBarSetUp() {
@@ -73,16 +71,16 @@ extension FavoritesViewController: FavoritesViewProtocol {
     }
     
     func success() {
+//        UIRefreshControl().endRefreshing()
         tableView.reloadData()
     }
-
 }
 
 
 extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.recipies?.count ?? 0
+        return presenterMain.recipiesFavorites?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -92,8 +90,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let itemCell = tableView.dequeueReusableCell(withIdentifier: FavoritesTableCustomCell.identifier, for: indexPath) as? FavoritesTableCustomCell {
 
-            let recepy = presenter.recipies?[indexPath.row]
-//            itemCell.myLabel.text = recepy?.title
+            let recepy = presenterMain.recipiesFavorites?[indexPath.row]
+            itemCell.myLabel.text = recepy?.title
 
 //            let imageURL = recepy?.image
 //            itemCell.myImageView.layer.cornerRadius = 20
