@@ -13,6 +13,11 @@ protocol MainViewProtocol: AnyObject { //для вьюхи 1
     func failure(error: Error)
 }
 
+protocol FavoritesViewProtocol: AnyObject {
+    func success() //будет отправлять сообщение нашей вьюхе
+    func failure(error: String)
+}
+
 protocol MainViewPresenterProtocol: AnyObject { //будет принимать сообщение от вьюхи?
     init(view: MainViewProtocol, favoritesView: FavoritesViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) //захватываем ссылку на вью чтобы что? 2
     func getRecepies() //запрашивает рецепт из сети
@@ -71,15 +76,29 @@ class MainPresenter: MainViewPresenterProtocol {
     func saveToFavorites(_ recipyID: Int?) {
         guard let recipyID = recipyID else { return }
         guard let recipies = recipies else { return }
-        print(recipyID)
         let recipy = recipies[recipyID]
-         //иначе будет нил так как массив был[Recipe]? не объявлен
-        recipiesFavorites?.append(recipy)
-        print(recipiesFavorites)
+        if ((recipiesFavorites?.contains(where: { $0.title == recipy.title })) == true) { //для ответа на интервью
+            print("такой рецепт уже сохранен в избранное")
+            
+            //здесь вызов алерт что рецепт уже есть избранном
+            
+        } else {
+            recipiesFavorites?.append(recipy)
+            print("такой рецепт уже сохранен в избранное")
+            
+            //здесь вызов алерт или всплывающее что рецепт добавлен
+        }
         
         favoritesView?.success()
     }
-
+    
+    func saveToUserDefaults() {
+        
+    }
+    
+    func fetchFromUserDefaults() {
+        
+    }
 }
 
 //MARK: - Метод для подгрузки картинок, который запускается из TableView extension

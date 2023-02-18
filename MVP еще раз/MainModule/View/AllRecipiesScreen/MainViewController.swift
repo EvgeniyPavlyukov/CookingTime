@@ -144,7 +144,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
        
         return UICollectionViewCell()
     }
-            
+     
+    //func to send recipy number in Array and save it to Favorites
     @objc func passFavoriteRecipy(sender: UIButton!) {
         presenter.saveToFavorites(sender.tag)
     }

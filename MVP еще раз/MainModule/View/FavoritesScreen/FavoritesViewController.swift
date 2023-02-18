@@ -66,6 +66,7 @@ class FavoritesViewController: UIViewController { //Это типа вью
 
 
 extension FavoritesViewController: FavoritesViewProtocol {
+   
     func failure(error: String) {
         print(error)
     }
@@ -91,17 +92,11 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         if let itemCell = tableView.dequeueReusableCell(withIdentifier: FavoritesTableCustomCell.identifier, for: indexPath) as? FavoritesTableCustomCell {
 
             let recepy = presenterMain.recipiesFavorites?[indexPath.row]
+            let imageURL = recepy?.image
             itemCell.myLabel.text = recepy?.title
-
-//            let imageURL = recepy?.image
-//            itemCell.myImageView.layer.cornerRadius = 20
-//            itemCell.myImageView.contentMode = .scaleAspectFill
-//            itemCell.contentView.contentMode = .scaleAspectFill
-
-//            itemCell.myImageView.downloaded(from: imageURL ?? "")
+            itemCell.myImageView.downloaded(from: imageURL ?? "")
             itemCell.myImageView.clipsToBounds = true
             itemCell.myImageView.layer.cornerRadius = 50
-
 
             return itemCell
         }
@@ -109,8 +104,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let recipy = presenter.recipies?[indexPath.row]
-//        presenter.tapOnTheRecipe(recipy)
+        let recipy = presenterMain.recipiesFavorites?[indexPath.row]
+        presenterMain.tapOnTheRecipe(recipy)
     }
 
 }
