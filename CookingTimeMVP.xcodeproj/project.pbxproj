@@ -27,7 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3BC231AC2999106A00A7B75C /* MVP еще раз.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MVP еще раз.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BC231AC2999106A00A7B75C /* CookingTimeMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookingTimeMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BC231AF2999106A00A7B75C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BC231B12999106A00A7B75C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3BC231B32999106A00A7B75C /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
@@ -81,7 +81,7 @@
 		3BC231A32999106A00A7B75C = {
 			isa = PBXGroup;
 			children = (
-				3BC231AE2999106A00A7B75C /* MVP еще раз */,
+				3BC231AE2999106A00A7B75C /* CookingTimeMVP */,
 				3BC231AD2999106A00A7B75C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,12 +89,12 @@
 		3BC231AD2999106A00A7B75C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3BC231AC2999106A00A7B75C /* MVP еще раз.app */,
+				3BC231AC2999106A00A7B75C /* CookingTimeMVP.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3BC231AE2999106A00A7B75C /* MVP еще раз */ = {
+		3BC231AE2999106A00A7B75C /* CookingTimeMVP */ = {
 			isa = PBXGroup;
 			children = (
 				3BC231AF2999106A00A7B75C /* AppDelegate.swift */,
@@ -104,12 +104,13 @@
 				3BC231D9299B91A500A7B75C /* Router.swift */,
 				3B6ABD72299FACB100653981 /* MainModule */,
 				3BC231D4299B829100A7B75C /* DetailedModule */,
+				3BE54A1B29A25F4700F5923B /* AccountModule */,
 				3BC231B52999106A00A7B75C /* Main.storyboard */,
 				3BC231B82999106D00A7B75C /* Assets.xcassets */,
 				3BC231BA2999106D00A7B75C /* LaunchScreen.storyboard */,
 				3BC231BD2999106D00A7B75C /* Info.plist */,
 			);
-			path = "MVP еще раз";
+			path = CookingTimeMVP;
 			sourceTree = "<group>";
 		};
 		3BC231C72999198B00A7B75C /* AllRecipiesScreen */ = {
@@ -188,12 +189,19 @@
 			path = FavoritesScreen;
 			sourceTree = "<group>";
 		};
+		3BE54A1B29A25F4700F5923B /* AccountModule */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AccountModule;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3BC231AB2999106A00A7B75C /* MVP еще раз */ = {
+		3BC231AB2999106A00A7B75C /* CookingTimeMVP */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3BC231C02999106D00A7B75C /* Build configuration list for PBXNativeTarget "MVP еще раз" */;
+			buildConfigurationList = 3BC231C02999106D00A7B75C /* Build configuration list for PBXNativeTarget "CookingTimeMVP" */;
 			buildPhases = (
 				3BC231A82999106A00A7B75C /* Sources */,
 				3BC231A92999106A00A7B75C /* Frameworks */,
@@ -203,9 +211,9 @@
 			);
 			dependencies = (
 			);
-			name = "MVP еще раз";
+			name = CookingTimeMVP;
 			productName = "MVP еще раз";
-			productReference = 3BC231AC2999106A00A7B75C /* MVP еще раз.app */;
+			productReference = 3BC231AC2999106A00A7B75C /* CookingTimeMVP.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -223,7 +231,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3BC231A72999106A00A7B75C /* Build configuration list for PBXProject "MVP еще раз" */;
+			buildConfigurationList = 3BC231A72999106A00A7B75C /* Build configuration list for PBXProject "CookingTimeMVP" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -236,7 +244,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3BC231AB2999106A00A7B75C /* MVP еще раз */,
+				3BC231AB2999106A00A7B75C /* CookingTimeMVP */,
 			);
 		};
 /* End PBXProject section */
@@ -421,7 +429,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 68NNJXQBZZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MVP еще раз/Info.plist";
+				INFOPLIST_FILE = CookingTimeMVP/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -449,7 +457,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 68NNJXQBZZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MVP еще раз/Info.plist";
+				INFOPLIST_FILE = CookingTimeMVP/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -471,7 +479,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3BC231A72999106A00A7B75C /* Build configuration list for PBXProject "MVP еще раз" */ = {
+		3BC231A72999106A00A7B75C /* Build configuration list for PBXProject "CookingTimeMVP" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3BC231BE2999106D00A7B75C /* Debug */,
@@ -480,7 +488,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3BC231C02999106D00A7B75C /* Build configuration list for PBXNativeTarget "MVP еще раз" */ = {
+		3BC231C02999106D00A7B75C /* Build configuration list for PBXNativeTarget "CookingTimeMVP" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3BC231C12999106D00A7B75C /* Debug */,

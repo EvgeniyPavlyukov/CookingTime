@@ -15,6 +15,7 @@ class FavoritesViewController: UIViewController { //Это типа вью
     public var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         tableView.register(FavoritesTableCustomCell.self, forCellReuseIdentifier: FavoritesTableCustomCell.identifier)
 
         return tableView
@@ -97,6 +98,7 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
             itemCell.myImageView.downloaded(from: imageURL ?? "")
             itemCell.myImageView.clipsToBounds = true
             itemCell.myImageView.layer.cornerRadius = 50
+            
 
             return itemCell
         }
@@ -107,6 +109,8 @@ extension FavoritesViewController: UITableViewDataSource, UITableViewDelegate {
         let recipy = presenterMain.recipiesFavorites?[indexPath.row]
         presenterMain.tapOnTheRecipe(recipy)
     }
+
+    //Реализовать удаление из избранного
 
 }
 

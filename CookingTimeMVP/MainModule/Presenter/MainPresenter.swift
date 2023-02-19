@@ -22,6 +22,7 @@ protocol MainViewPresenterProtocol: AnyObject { //будет принимать 
     init(view: MainViewProtocol, favoritesView: FavoritesViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) //захватываем ссылку на вью чтобы что? 2
     func getRecepies() //запрашивает рецепт из сети
     func tapOnTheRecipe(_ recipy: Recipe?)
+    func tapOnAccount()
     func saveToFavorites(_ recipyID: Int?)
     var recipies: [Recipe]? {get set}
     var recipiesFavorites: [Recipe]? {get set}
@@ -51,6 +52,12 @@ class MainPresenter: MainViewPresenterProtocol {
     
     func tapOnTheRecipe(_ recipy: Recipe?) {
         router?.detailedViewController(recipy: recipy)
+    }
+    
+    //MARK: - Переход к детальному экрану Аккаунта
+    
+    func tapOnAccount() {
+        
     }
     
     //MARK: - Получаем рецепты из интернета при загрузке приложения при сборке черезе Ассемблер кладем Коллекцию в переменную и уведомляем главный экран что все пришло, обновляем на главном потоке.
@@ -84,7 +91,7 @@ class MainPresenter: MainViewPresenterProtocol {
             
         } else {
             recipiesFavorites?.append(recipy)
-            print("такой рецепт уже сохранен в избранное")
+            print("сохранен в избранное")
             
             //здесь вызов алерт или всплывающее что рецепт добавлен
         }

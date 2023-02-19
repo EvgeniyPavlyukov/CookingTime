@@ -73,9 +73,14 @@ class MainViewController: UIViewController {
         searchBar.becomeFirstResponder()
     }
     
+    @objc func didTapAccount() {
+        presenter.tapOnAccount()
+    }
+    
     func showSearchBarButton(_ bool: Bool) {
         if bool {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(didTapSearch))
         } else {
             self.navigationItem.rightBarButtonItem = nil
         }
@@ -86,6 +91,8 @@ class MainViewController: UIViewController {
         self.searchBar.showsCancelButton = shouldShow
         self.navigationItem.titleView = shouldShow ? searchBar : nil //это упрощает код в из 5 строк
     }
+    
+    
     
 //MARK: - Constraints
     
