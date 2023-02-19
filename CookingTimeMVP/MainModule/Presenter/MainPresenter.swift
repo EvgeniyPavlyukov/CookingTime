@@ -84,7 +84,9 @@ class MainPresenter: MainViewPresenterProtocol {
         guard let recipyID = recipyID else { return }
         guard let recipies = recipies else { return }
         let recipy = recipies[recipyID]
-        if ((recipiesFavorites?.contains(where: { $0.title == recipy.title })) == true) { //для ответа на интервью
+        if ((recipiesFavorites?.contains(where: { $0.title == recipy.title })) == true) { //для ответа на интервью по замыканиям
+            
+        // здесь нужна логика чтобы удалять их избранного. Проблема в том что я не могу сделать библиотеку, потому что на аррэе завязана подгрузка ячеек в таблице
             print("такой рецепт уже сохранен в избранное")
             
             //здесь вызов алерт что рецепт уже есть избранном
@@ -92,7 +94,6 @@ class MainPresenter: MainViewPresenterProtocol {
         } else {
             recipiesFavorites?.append(recipy)
             print("сохранен в избранное")
-            
             //здесь вызов алерт или всплывающее что рецепт добавлен
         }
         

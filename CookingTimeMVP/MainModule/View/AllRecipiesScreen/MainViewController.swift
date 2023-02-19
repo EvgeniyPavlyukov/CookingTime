@@ -143,6 +143,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
             itemCell.myImageView.clipsToBounds = true
             itemCell.myImageView.layer.cornerRadius = 30
             itemCell.myButton.tag = indexPath.row
+            itemCell.myButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+            itemCell.myButton.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
             itemCell.myButton.addTarget(self, action: #selector(self.passFavoriteRecipy(sender: )), for: .touchUpInside)
             
             return itemCell
@@ -154,7 +156,14 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
      
     //func to send recipy number in Array and save it to Favorites
     @objc func passFavoriteRecipy(sender: UIButton!) {
-        presenter.saveToFavorites(sender.tag)
+        if sender.isSelected {
+            sender.isSelected = false
+            presenter.saveToFavorites(sender.tag)
+        } else {
+            sender.isSelected = true
+            presenter.saveToFavorites(sender.tag)
+        }
+        
     }
     
     //Cell size and layout
@@ -166,7 +175,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipy = presenter.recipies?[indexPath.row]
         presenter.tapOnTheRecipe(recipy)
-        print("tap")
     }
 }
 
