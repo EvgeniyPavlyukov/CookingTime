@@ -31,7 +31,6 @@ class MainCollectionCustomCell: UICollectionViewCell {
     var myButton: UIButton = {
         let myButton = UIButton()
         myButton.translatesAutoresizingMaskIntoConstraints = false
-        myButton.backgroundColor = .red
         
         return myButton
     }()
@@ -74,4 +73,3 @@ class MainCollectionCustomCell: UICollectionViewCell {
     }
     
 }
-
