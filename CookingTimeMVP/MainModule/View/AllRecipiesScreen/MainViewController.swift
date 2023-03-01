@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
 //MARK: - Variables
     
     var presenter: MainViewPresenterProtocol! //будет собираться снаружи
-    let searchBar = UISearchBar()
+    let searchBar = UISearchBar() //создаем здесь чтобы присвоить делегат
     
     var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -118,14 +118,16 @@ extension MainViewController: MainViewProtocol {
     func failure(error: Error) {
         print(error.localizedDescription)
     }
-
-    
 }
 
 
 //MARK: - CollectionView SetUps
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
     
     // Cell quantity
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -138,13 +140,22 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
             let recepy = presenter.recipies?[indexPath.row]
             let imageURL = recepy?.image
             
+            itemCell.myButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+            itemCell.myButton.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
+            
+            if presenter.recipiesFavorites?.contains(where: { $0.id == recepy?.id}) == true {
+                itemCell.myButton.isSelected = true
+                print("is selected")
+            } else {
+                itemCell.myButton.isSelected = false
+                print("is UNselected")
+            }
+            
             itemCell.myLabel.text = recepy?.title
             itemCell.myImageView.downloaded(from: imageURL ?? "")
             itemCell.myImageView.clipsToBounds = true
             itemCell.myImageView.layer.cornerRadius = 30
             itemCell.myButton.tag = indexPath.row
-            itemCell.myButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
-            itemCell.myButton.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
             itemCell.myButton.addTarget(self, action: #selector(self.passFavoriteRecipy(sender: )), for: .touchUpInside)
             
             return itemCell
@@ -156,14 +167,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
      
     //func to send recipy number in Array and save it to Favorites
     @objc func passFavoriteRecipy(sender: UIButton!) {
-        if sender.isSelected {
-            sender.isSelected = false
-            presenter.saveToFavorites(sender.tag)
-        } else {
-            sender.isSelected = true
-            presenter.saveToFavorites(sender.tag)
-        }
-        
+        sender.isSelected.toggle()
+        presenter.saveToFavorites(sender.tag)
     }
     
     //Cell size and layout
@@ -175,7 +180,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipy = presenter.recipies?[indexPath.row]
         presenter.tapOnTheRecipe(recipy)
+        print(indexPath.row)
     }
+    
 }
 
 //MARK: - SearchBar SetUp

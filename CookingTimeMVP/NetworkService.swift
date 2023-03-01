@@ -17,7 +17,7 @@ protocol NetworkServiceProtocol: AnyObject {
 class NetworkService: NetworkServiceProtocol {
     
     func getModelFromInternet(completion: @escaping (Result<RecepyModelArray?, Error>) -> Void) {
-        let number = "number=30&"
+        let number = "number=50&"
         let urlString = "https://api.spoonacular.com/recipes/random?\(number)apiKey=286e94bc02d443d5a5d4a1f7bc25cf6d"
         guard let url = URL(string: urlString) else { return }
         

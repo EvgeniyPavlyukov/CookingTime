@@ -45,7 +45,7 @@ class MainPresenter: MainViewPresenterProtocol {
         self.networkService = networkService
         self.router = router
         getRecepies() //вызовется при сборке
-        recipiesFavorites = [Recipe]()
+        recipiesFavorites = fetchFromUserDefaults()
     }
     
     //MARK: - Переход к детальному экрану рецепта
@@ -81,18 +81,19 @@ class MainPresenter: MainViewPresenterProtocol {
     //MARK: - Save to Favorites
     
     func saveToFavorites(_ recipyID: Int?) {
-        guard let recipyID = recipyID else { return }
-        guard let recipies = recipies else { return }
-        let recipy = recipies[recipyID]
-        if ((recipiesFavorites?.contains(where: { $0.title == recipy.title })) == true) { //для ответа на интервью по замыканиям
-            
-        // здесь нужна логика чтобы удалять их избранного. Проблема в том что я не могу сделать библиотеку, потому что на аррэе завязана подгрузка ячеек в таблице
-            print("такой рецепт уже сохранен в избранное")
+        guard let recipyID = recipyID, let recipies = recipies else { return }
+        
+        var recipy = recipies[recipyID]
+        if let index = recipiesFavorites?.firstIndex(where: { $0.id == recipy.id}) { //нахожу самый первый индекс в массиве
+            recipiesFavorites?.remove(at: index)
+            saveToUserDefaults()
+            print("рецепт удален из избранного")
             
             //здесь вызов алерт что рецепт уже есть избранном
             
         } else {
             recipiesFavorites?.append(recipy)
+            saveToUserDefaults()
             print("сохранен в избранное")
             //здесь вызов алерт или всплывающее что рецепт добавлен
         }
@@ -101,17 +102,23 @@ class MainPresenter: MainViewPresenterProtocol {
     }
     
     func saveToUserDefaults() {
-        
+        let encodedData = try! PropertyListEncoder().encode(self.recipiesFavorites)
+        UserDefaults.standard.set(encodedData, forKey: "Favorites")
     }
     
-    func fetchFromUserDefaults() {
-        
+    func fetchFromUserDefaults() -> [Recipe] {
+        var fetchedModelArray = [Recipe]()
+        if let fetchedData = UserDefaults.standard.data(forKey: "Favorites") {
+            let fetchedDataArray = try! PropertyListDecoder().decode([Recipe].self, from: fetchedData)
+            fetchedModelArray = fetchedDataArray
+        }
+        return fetchedModelArray
     }
 }
 
 //MARK: - Метод для подгрузки картинок, который запускается из TableView extension
 
-extension UIImageView {
+extension UIImageView { //можно использовать библиотеку kingFisher 
     func downloaded(from url: URL, contentMode mode: ContentMode = .scaleAspectFill) {
         contentMode = mode
         URLSession.shared.dataTask(with: url) { data, response, error in
